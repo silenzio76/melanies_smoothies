@@ -28,8 +28,7 @@ my_dataframe = session.table("smoothies.public.fruit_options").select(col('fruit
 
 ingredient_list = st.multiselect('Chose up to 6 fruits!', my_dataframe, max_selections=6)
 
-if ingredient_list:
-    ingredient_str = ''
+ingredient_str = ''
     
 for fruit_chosen in ingredient_list:
     if len(ingredient_str) > 0:
