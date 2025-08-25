@@ -1,5 +1,4 @@
 #requirements
-python
 snowflake-snowpark-python
 streamlit
 datetime
