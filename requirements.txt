@@ -1,4 +1,4 @@
-name: streamlit_app
+name: app_environment
 channels:
   - snowflake
 dependencies:
