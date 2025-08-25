@@ -1,4 +1,4 @@
-ch# Import python packages
+# Import python packages
 import datetime
 import pandas as pd
 import requests
