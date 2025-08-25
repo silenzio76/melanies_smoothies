@@ -25,26 +25,27 @@ cnx = st.connection("snowflake")
 session = cnx.session()
 
 
-my_dataframe = session.table("smoothies.public.fruit_options").select(col('fruit_name'),col('search_on'))
+my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'),col('SEARCH_ON'))
 pd_df = my_dataframe.to_pandas()
 
-ingredient_list = st.multiselect('Chose up to 6 fruits!', my_dataframe, max_selections=6)
+ingredient_list = st.multiselect('Chose up to 5 fruits!', my_dataframe, max_selections=5)
 
-ingredient_str = ''
+if ingredient_list:
+    ingredient_str = ''
     
-for fruit_chosen in ingredient_list:
-    if len(ingredient_str) > 0:
-        ingredient_str += ','
-    ingredient_str += fruit_chosen
-    search_on = pd_df.loc(pd_df['FRUIT_NAME'] == fruit_chosen, 'SEARCH_ON').iloc[0]
-    st.subheader(fruit_chosen + ', nutrition informations:')
-    smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/"+search_on)
-    sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
-
-time_to_insert = st.button('Submit order')
-
-insert_stmt = """INSERT INTO SMOOTHIES.PUBLIC.ORDERS (order_INGREDIENTS, order_CONTACT, order_NAME_ON_ORDER, order_OPEN_DATE_TIME) VALUES ('""" + ingredient_str + """', '""" + contactOptions + """', '""" + name_of_order + """', '""" + datetime.datetime.now().isoformat() + """');"""
-
-if time_to_insert:
-    session.sql(insert_stmt).collect()
-    st.success('Your Smoothie is ordered! '+ name_of_order + '!!!', icon="✅")
+    for fruit_chosen in ingredient_list:
+       # if len(ingredient_str) > 0:
+        #    ingredient_str += ','
+        ingredient_str += fruit_chosen + ' ' 
+        search_on = pd_df.loc(pd_df['FRUIT_NAME'] == fruit_chosen, 'SEARCH_ON').iloc[0]
+        st.subheader(fruit_chosen + ', nutrition informations:')
+        smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/"+search_on)
+        sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
+    
+    time_to_insert = st.button('Submit order')
+    
+    insert_stmt = """INSERT INTO SMOOTHIES.PUBLIC.ORDERS (order_INGREDIENTS, order_CONTACT, order_NAME_ON_ORDER, order_OPEN_DATE_TIME) VALUES ('""" + ingredient_str + """', '""" + contactOptions + """', '""" + name_of_order + """', '""" + datetime.datetime.now().isoformat() + """');"""
+    
+    if time_to_insert:
+        session.sql(insert_stmt).collect()
+        st.success('Your Smoothie is ordered! '+ name_of_order + '!!!', icon="✅")
