@@ -25,11 +25,11 @@ from snowflake.snowpark.functions import col
 # in github use
 cnx = st.connection("snowflake")
 session = cnx.session()
-st.text(smoothiefroot_response)
+sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=true)
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('fruit_name'))
 
-ingredient_list = st.multiselect('Chose up to 6 fruits!', my_dataframe, max_selections=6)
-
+#ingredient_list = st.multiselect('Chose up to 6 fruits!', my_dataframe, max_selections=6)
+ingredient_list = st.multiselect('Chose up to 6 fruits!', sf_df, max_selections=6)
 ingredient_str = ''
 
 for fruit_chosen in ingredient_list:
