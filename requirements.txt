@@ -3,4 +3,5 @@ snowflake-snowpark-python
 streamlit
 datetime
 requests
+pandas
 
