@@ -1,4 +1,4 @@
-# Import python packages
+ch# Import python packages
 import datetime
 import pandas as pd
 import requests
@@ -25,7 +25,7 @@ cnx = st.connection("snowflake")
 session = cnx.session()
 
 
-my_dataframe = session.table("smoothies.public.fruit_options").select(col('fruit_name'),col('serach_on'))
+my_dataframe = session.table("smoothies.public.fruit_options").select(col('fruit_name'),col('search_on'))
 pd_df = my_dataframe.to_pandas()
 
 ingredient_list = st.multiselect('Chose up to 6 fruits!', my_dataframe, max_selections=6)
