@@ -15,7 +15,11 @@ contactOptions = st.selectbox("How we can contact you?", ('E-Mail', 'Home phone'
 
 from snowflake.snowpark.functions import col
 
-session = get_active_session()
+#session = get_active_session() -- used directly in snowflake
+# in github use
+cnx = st.connection("snowflake")
+session = cnx.session()
+
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('fruit_name'))
 
 ingredient_list = st.multiselect('Chose up to 5 fruits!', my_dataframe, max_selections=6)
