@@ -1,7 +1,7 @@
 #requirements
-python=3.13.5
-snowflake-snowpark-python>=3.9
-streamlit>=1.20
+python
+snowflake-snowpark-python
+streamlit
 datetime
 requests
 
